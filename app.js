@@ -19,7 +19,7 @@ function createTask() {
   task.setAttribute("id", `task${counterTasks}`);
   document.getElementById("container").appendChild(task);
 
-  // cria um checkbox para a tarefa
+  // cria um botão para deletar a tarefa
   const buttonOfTask = document.createElement("button");
   buttonOfTask.innerText = "Delete Task";
   document.getElementById(`task${counterTasks}`).appendChild(buttonOfTask);
