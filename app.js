@@ -31,7 +31,12 @@ function createTask() {
   let text = document.getElementById("inputOfTasks").value;
   document.getElementById(`task${counterTasks}`).appendChild(nameOfTask);
   document.getElementById(`name${counterTasks}`).innerText = text;  
+  
+  // limpa o input depois de adicionar a tarefa
+  inputOfTask.value = "";
 
+  // coloca o foco no input depois de adicionar a tarefa
+  inputOfTask.focus();
 
   // fazer com que ao clicar no botão deletar a task.
   buttonOfTask.onclick = function() {
