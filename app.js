@@ -8,6 +8,14 @@ function myCounter() {
   };
 }
 
+// se Enter for pressionado cria a tarefa
+document.getElementById("inputOfTasks").onkeydown = function(event) {
+  if(event.key === "Enter"){
+    console.log("enter pressionado");
+    createTask();
+  }
+}
+
 const counter = myCounter();
 
 function createTask() {
