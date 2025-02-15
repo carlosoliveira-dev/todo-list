@@ -11,8 +11,6 @@ function myCounter() {
 const counter = myCounter();
 
 function createTask() {
-  // mostra no console quando a função é chamada.
-  console.log("CreateTask sendo executado!");
   
   const counterTasks = counter();
   
@@ -25,6 +23,16 @@ function createTask() {
   const buttonOfTask = document.createElement("button");
   buttonOfTask.innerText = "Delete Task";
   document.getElementById(`task${counterTasks}`).appendChild(buttonOfTask);
+  
+  // criando o nome da tarefa
+  const inputOfTask = document.getElementById("inputOfTasks");
+  const nameOfTask = document.createElement("span");
+  nameOfTask.setAttribute("id", `name${counterTasks}`);
+  let text = document.getElementById("inputOfTasks").value;
+  document.getElementById(`task${counterTasks}`).appendChild(nameOfTask);
+  document.getElementById(`name${counterTasks}`).innerText = text;  
+
+
   // fazer com que ao clicar no botão deletar a task.
   buttonOfTask.onclick = function() {
     console.log("botão delete clicado!");
