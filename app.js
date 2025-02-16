@@ -11,8 +11,11 @@ function myCounter() {
 // se Enter for pressionado cria a tarefa
 document.getElementById("inputOfTasks").onkeydown = function(event) {
   if(event.key === "Enter"){
-    console.log("enter pressionado");
-    createTask();
+    let text = document.getElementById("inputOfTasks").value;
+    if(text != ""){
+      console.log("enter pressionado");
+      createTask();
+    }
   }
 }
 
