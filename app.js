@@ -23,6 +23,11 @@ const counter = myCounter();
 
 function createTask() {
   
+  let textOfInput = document.getElementById("inputOfTasks").value;
+    if(textOfInput == ""){
+      return;
+    }
+
   const counterTasks = counter();
   
   // cria uma div que serve de container para a nova tarefa
