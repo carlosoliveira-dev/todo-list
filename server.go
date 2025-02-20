@@ -19,10 +19,15 @@ func headers(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+func myPage(w http.ResponseWriter, req *http.Request) {
+
+	fmt.Fprintf(w, "Essa é a minha página principal :)")
+}
+
 func main() {
 
 	http.HandleFunc("/hello", hello)
 	http.HandleFunc("/headers", headers)
-
+	http.HandleFunc("/", myPage)
 	http.ListenAndServe(":8080", nil)
 }
