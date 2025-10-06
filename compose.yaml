@@ -18,3 +18,16 @@ services:
         - action: sync
           path: ./frontend
           target: /app
+
+  backend-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend
+          target: /app
+
