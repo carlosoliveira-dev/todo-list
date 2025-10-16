@@ -7,44 +7,43 @@ import (
 	"todo-list/backend/src/core/task/model"
 	"todo-list/backend/src/core/task/usecase"
 	"todo-list/backend/src/external/db"
+
+	"github.com/gin-gonic/gin"
 )
 
-func hello(w http.ResponseWriter, req *http.Request) {
-
-	fmt.Fprintf(w, "hello\n")
-}
-
-func headers(w http.ResponseWriter, req *http.Request) {
-
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			fmt.Fprintf(w, "%v: %v\n", name, h)
-		}
-	}
-}
-
 func main() {
-
-	taskInput := model.Task{
-		Id:          "1",
-		Title:       "pintar",
-		Description: "pintar o portão"}
-
 	repoInMemo := db.NewTaskRepoInMemory()
-
 	addTask := usecase.NewAddTask(repoInMemo)
 
-	output, err := addTask.Execute(taskInput)
+	router := gin.Default()
 
-	if err != nil {
-		log.Fatalf("ERRO AO ADICIONAR TAREFA: %v", err)
-		return
-	}
+	router.GET("/tasks", func(c *gin.Context) {
+		tasks, err := repoInMemo.GetAll()
 
-	println("Id impresso no main:", output.Id)
+		if err != nil {
+			fmt.Println("Erro:", err)
+			return // ou tratar de outra forma
+		}
 
-	http.HandleFunc("/hello", hello)
-	http.HandleFunc("/headers", headers)
+		c.IndentedJSON(http.StatusOK, tasks)
+	})
 
-	http.ListenAndServe(":8090", nil)
+	router.POST("/tasks", func(c *gin.Context) {
+		var task model.Task
+
+		if err := c.BindJSON(&task); err != nil {
+			return
+		}
+
+		_, err := addTask.Execute(task)
+
+		if err != nil {
+			log.Fatalf("ERRO AO ADICIONAR TAREFA: %v", err)
+			return
+		}
+
+		c.IndentedJSON(http.StatusCreated, task)
+	})
+
+	router.Run(":8090")
 }
