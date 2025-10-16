@@ -21,13 +21,13 @@ services:
 
   backend-dev:
     build:
-      context: ./backend
+      context: ./backend/src
       dockerfile: Dockerfile
     ports:
       - "8090:8090"
     develop:
       watch:
         - action: rebuild
-          path: ./backend
+          path: ./backend/src
           target: /app
 
