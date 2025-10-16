@@ -22,7 +22,7 @@ func main() {
 
 		if err != nil {
 			fmt.Println("Erro:", err)
-			return // ou tratar de outra forma
+			return
 		}
 
 		c.IndentedJSON(http.StatusOK, tasks)
