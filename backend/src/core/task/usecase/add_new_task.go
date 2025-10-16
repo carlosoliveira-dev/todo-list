@@ -16,13 +16,12 @@ func NewAddTask(repo service.TaskRepo) *AddTask {
 	}
 }
 
-func (task *AddTask) Execute(input model.Task) (model.Task, error) {
-	task.Repo.Add(&input)
+func (addtask *AddTask) Execute(task model.Task) (model.Task, error) {
+	addtask.Repo.Add(&task)
 
 	fmt.Println("Tarefa sendo adicionada:")
-	fmt.Println("id:", input.Id)
-	fmt.Println("title:", input.Title)
-	fmt.Println("description:", input.Description)
+	fmt.Println("title:", task.Title)
+	fmt.Println("description:", task.Description)
 
-	return input, nil
+	return task, nil
 }

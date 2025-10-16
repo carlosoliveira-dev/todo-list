@@ -1,6 +1,9 @@
 package db
 
-import "todo-list/backend/src/core/task/model"
+import (
+	"fmt"
+	"todo-list/backend/src/core/task/model"
+)
 
 type TaskRepoInMemory struct {
 	tasks []model.Task
@@ -12,8 +15,13 @@ func NewTaskRepoInMemory() *TaskRepoInMemory {
 	}
 }
 
+var lastID int = 0
+
 func (tr *TaskRepoInMemory) Add(t *model.Task) error {
+	lastID++
+	t.Id = lastID
 	tr.tasks = append(tr.tasks, *t)
+	fmt.Println(t)
 	return nil
 }
 
