@@ -22,7 +22,7 @@ func main() {
 
 		if err != nil {
 			fmt.Println("Erro:", err)
-			return // ou tratar de outra forma
+			return
 		}
 
 		c.IndentedJSON(http.StatusOK, tasks)
@@ -35,14 +35,14 @@ func main() {
 			return
 		}
 
-		_, err := addTask.Execute(task)
+		taskresp, err := addTask.Execute(task)
 
 		if err != nil {
 			log.Fatalf("ERRO AO ADICIONAR TAREFA: %v", err)
 			return
 		}
 
-		c.IndentedJSON(http.StatusCreated, task)
+		c.IndentedJSON(http.StatusCreated, taskresp)
 	})
 
 	router.Run(":8090")

@@ -6,6 +6,8 @@ services:
     image: docker-angular-sample
     ports:
       - "8080:8080"
+    profiles:
+      - front
 
   angular-dev:
     build:
@@ -18,6 +20,8 @@ services:
         - action: sync
           path: ./frontend
           target: /app
+    profiles:
+      - front
 
   backend-dev:
     build:
@@ -30,4 +34,40 @@ services:
         - action: rebuild
           path: ./backend/src
           target: /app
+    profiles:
+      - back
 
+  postgres:
+    build:
+      context: ./backend/src/external/db
+      dockerfile: Dockerfile
+    container_name: todo_list_postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: todo-list-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - todo_list_data_sql:/var/lib/postgresql/data
+    profiles:
+      - db
+
+  pgadmin:
+    image: dpage/pgadmin4:9.9
+    container_name: todo_list_pgadmin
+    ports:
+      - 5050:80
+    volumes:
+      - ./backend/src/external/db/pgpass:/config/pgpass:ro
+      - ./backend/src/external/db/servers.json:/pgadmin4/servers.json:ro
+    environment:
+      PGADMIN_DEFAULT_EMAIL: demo@example.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    profiles:
+      - db   
+
+volumes:
+  todo_list_data_sql:
