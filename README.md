@@ -20,7 +20,11 @@ docker compose up serviço
 ### Inicia um grupo de serviços 
 docker compose --profile front up
 
---build no final pode ajudar caso não encontre a rede
-
 #### remove os containers
 docker compose down
+
+### Dicas
+Se pedir senha quando for acessar o pgadmin tem que mudar as permissões do arquivo local:
+chmod 600 pgpass
+
+Quando estiver executando um --profile o comando --build pode ajudar caso não encontre a rede.
