@@ -32,11 +32,18 @@ docker compose ls
 ### Finaliza um grupo de serviços pelo nome
 docker compose -p todo-list down
 
-### remove os containers
+### Remove os containers
 docker compose down
+
+## Comandos locais
+
+### Inicia o hot reload do backend de forma local
+air
 
 ### Dicas
 Se pedir senha quando for acessar o pgadmin tem que mudar as permissões do arquivo local:
 chmod 600 pgpass
 
 Quando estiver executando um --profile o comando --build pode ajudar caso não encontre a rede.
+
+O comando air deve ser rodado na raiz do projeto.
