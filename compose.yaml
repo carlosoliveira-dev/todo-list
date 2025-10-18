@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     profiles:
-      - front
+      - prod
 
   angular-dev:
     build:
@@ -21,7 +21,7 @@ services:
           path: ./frontend
           target: /app
     profiles:
-      - front
+      - dev
 
   backend-dev:
     build:
@@ -51,7 +51,7 @@ services:
     volumes:
       - todo_list_data_sql:/var/lib/postgresql/data
     profiles:
-      - db
+      - dev
 
   pgadmin:
     image: dpage/pgadmin4:9.9
@@ -67,7 +67,7 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: 'False'
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
     profiles:
-      - db   
+      - dev   
 
 volumes:
   todo_list_data_sql:
