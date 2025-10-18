@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,16 +10,24 @@ import (
 	"todo-list/backend/src/external/db"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5"
 )
 
 func main() {
-	repoInMemo := db.NewTaskRepoInMemory()
-	addTask := usecase.NewAddTask(repoInMemo)
+	conn, err := pgx.Connect(context.Background(), "postgres://postgres:secret@postgres:5432/todo-list-db?sslmode=disable")
+
+	if err != nil {
+		fmt.Println("Erro ao iniciar a conexão ao banco de dados:", err)
+		return
+	}
+
+	repoPostgres := db.NewTaskRepoPostgres(conn)
+	addTask := usecase.NewAddTask(repoPostgres)
 
 	router := gin.Default()
 
 	router.GET("/tasks", func(c *gin.Context) {
-		tasks, err := repoInMemo.GetAll()
+		tasks, err := repoPostgres.GetAll()
 
 		if err != nil {
 			fmt.Println("Erro:", err)
