@@ -1,20 +1,9 @@
 services:
-  angular-prod:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: todo_list_angular_prod
-    image: docker-angular-sample
-    ports:
-      - "8080:8080"
-    profiles:
-      - prod
-
-  angular-dev:
+  angular:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    container_name: todo_list_angular_dev
+    container_name: todo_list_angular
     ports:
       - "4200:4200"
     develop:
@@ -25,11 +14,11 @@ services:
     profiles:
       - dev
 
-  backend-dev:
+  backend:
     build:
       context: ./backend/src
       dockerfile: Dockerfile
-    container_name: todo_list_backend_dev
+    container_name: todo_list_backend
     ports:
       - "8090:8090"
     develop:
@@ -44,7 +33,7 @@ services:
     build:
       context: ./backend/src/external/db
       dockerfile: Dockerfile
-    container_name: todo_list_postgres_db
+    container_name: todo_list_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
