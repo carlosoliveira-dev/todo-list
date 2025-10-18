@@ -1,31 +1,13 @@
-##
-## Build
-##
-
-FROM golang:1.24.7 AS build
-
+FROM golang:1.25.2-alpine
 WORKDIR /app
 
-COPY go.mod .
-# COPY go.sum .
+RUN go install github.com/air-verse/air@latest
+
+COPY go.* ./
 RUN go mod download
 
 COPY . .
 
-RUN go build -o /todo-list-backend
-
-##
-## Deploy
-##
-
-FROM gcr.io/distroless/base-debian12
-
-WORKDIR /
-
-COPY --from=build /todo-list-backend /todo-list-backend
-
 EXPOSE 8090
 
-USER nonroot:nonroot
-
-ENTRYPOINT ["/todo-list-backend"]
+CMD [ "air", "-c", ".air.toml" ]

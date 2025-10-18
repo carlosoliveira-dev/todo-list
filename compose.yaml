@@ -31,11 +31,11 @@ services:
       - "8090:8090"
     develop:
       watch:
-        - action: rebuild
+        - action: sync
           path: ./backend/src
           target: /app
     profiles:
-      - back
+      - dev
 
   postgres:
     build:
