@@ -18,9 +18,8 @@ func NewTaskRepoPostgres(conn *pgx.Conn) *TaskRepoPostgres {
 
 func (tr *TaskRepoPostgres) Add(t *model.Task) error {
 	_, err := tr.conn.Exec(context.Background(),
-		"INSERT INTO tasks (title, description) VALUES ($1, $2)",
-		t.Title, t.Description,
-	)
+		"INSERT INTO tasks (title, description, done) VALUES ($1, $2, $3)",
+		t.Title, t.Description, t.Done)
 	if err != nil {
 		fmt.Printf("ERRO ao inserir task(TaskRepoPostgres.Add): %v", err)
 		return err
