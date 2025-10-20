@@ -12,9 +12,14 @@ export interface Task {
   providedIn: 'root'
 })
 export class TaskService {
+  private apiUrl = 'api/tasks';
   private http = inject(HttpClient);
   
+  addTask(t: Task): Observable<Task> {
+    return this.http.post<Task>(this.apiUrl, t);
+  }
+
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`api/tasks`);
+    return this.http.get<Task[]>(this.apiUrl);
   }
 }
