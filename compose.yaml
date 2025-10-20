@@ -53,8 +53,10 @@ services:
     ports:
       - 5050:80
     volumes:
-      - ./backend/src/external/db/pgpass:/config/pgpass:ro
-      - ./backend/src/external/db/servers.json:/pgadmin4/servers.json:ro
+      - ./backend/src/external/db/pgpass:/config/pgpass:rw
+      - ./backend/src/external/db/servers.json:/pgadmin4/servers.json:rw
+    entrypoint: >
+      sh -c "chmod 600 /config/pgpass && chmod 600 /pgadmin4/servers.json && /entrypoint.sh"
     environment:
       PGADMIN_DEFAULT_EMAIL: demo@example.com
       PGADMIN_DEFAULT_PASSWORD: secret

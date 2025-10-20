@@ -28,7 +28,7 @@ func (tr *TaskRepoPostgres) Add(t *model.Task) error {
 	return nil
 }
 
-func (tr *TaskRepoPostgres) GetAll() ([]model.Task, error) {
+func (tr *TaskRepoPostgres) GetAll() ([]model.TaskWithID, error) {
 	rows, err := tr.conn.Query(context.Background(), "SELECT * FROM tasks")
 	if err != nil {
 		fmt.Printf("Query error: %v", err)
@@ -37,23 +37,25 @@ func (tr *TaskRepoPostgres) GetAll() ([]model.Task, error) {
 
 	defer rows.Close()
 
-	var tasks []model.Task
+	var tasks []model.TaskWithID
 
 	for rows.Next() {
 		var id int
 		var title string
 		var description string
+		var done bool
 
-		err = rows.Scan(&id, &title, &description)
+		err = rows.Scan(&id, &title, &description, &done)
 		if err != nil {
 			fmt.Printf("Scan error: %v", err)
 			return nil, err
 		}
 
-		task := model.Task{
+		task := model.TaskWithID{
 			Id:          id,
 			Title:       title,
 			Description: description,
+			Done:        done,
 		}
 
 		tasks = append(tasks, task)
