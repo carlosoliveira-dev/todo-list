@@ -1,11 +1,10 @@
 CREATE TABLE IF NOT EXISTS tasks (
  id SERIAL PRIMARY KEY,
- title VARCHAR(100),
- description VARCHAR(100),
+ description TEXT NOT NULL,
  done BOOLEAN
 );
 
-INSERT INTO tasks (title, description, done) VALUES
- ('Programar', 'Projeto todo-list', FALSE),
- ('Estudar', 'Linguagem Go', TRUE),
- ('Caminhar', 'Durante 1 hora', FALSE);
+INSERT INTO tasks (description, done) VALUES
+ ('Programar', FALSE),
+ ('Estudar', TRUE),
+ ('Caminhar', FALSE);

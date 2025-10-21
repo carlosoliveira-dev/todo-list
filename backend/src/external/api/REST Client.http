@@ -6,6 +6,6 @@ POST http://localhost:8090/tasks HTTP/1.1
 content-type: application/json
 
 {
-    "description": "pintar o portão",
-    "done": true
+    "description": "cozinhar",
+    "done": false
 }

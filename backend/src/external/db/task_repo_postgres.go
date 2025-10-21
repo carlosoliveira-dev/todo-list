@@ -18,8 +18,8 @@ func NewTaskRepoPostgres(conn *pgx.Conn) *TaskRepoPostgres {
 
 func (tr *TaskRepoPostgres) Add(t *model.Task) error {
 	_, err := tr.conn.Exec(context.Background(),
-		"INSERT INTO tasks (title, description, done) VALUES ($1, $2, $3)",
-		t.Title, t.Description, t.Done)
+		"INSERT INTO tasks (description, done) VALUES ($1, $2)",
+		t.Description, t.Done)
 	if err != nil {
 		fmt.Printf("ERRO ao inserir task(TaskRepoPostgres.Add): %v", err)
 		return err
@@ -40,11 +40,10 @@ func (tr *TaskRepoPostgres) GetAll() ([]model.TaskWithID, error) {
 
 	for rows.Next() {
 		var id int
-		var title string
 		var description string
 		var done bool
 
-		err = rows.Scan(&id, &title, &description, &done)
+		err = rows.Scan(&id, &description, &done)
 		if err != nil {
 			fmt.Printf("Scan error: %v", err)
 			return nil, err
@@ -52,7 +51,6 @@ func (tr *TaskRepoPostgres) GetAll() ([]model.TaskWithID, error) {
 
 		task := model.TaskWithID{
 			Id:          id,
-			Title:       title,
 			Description: description,
 			Done:        done,
 		}
