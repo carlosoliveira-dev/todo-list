@@ -28,6 +28,16 @@ func (tr *TaskRepoPostgres) Add(t *model.Task) error {
 	return nil
 }
 
+func (tr *TaskRepoPostgres) Remove(id int) error {
+	_, err := tr.pool.Exec(context.Background(),
+		"DELETE FROM tasks WHERE id = $1", id)
+	if err != nil {
+		fmt.Printf("ERRO ao remover task (TaskRepoPostgres.Remove): %v", err)
+		return err
+	}
+	return nil
+}
+
 func (tr *TaskRepoPostgres) GetAll() ([]model.TaskWithID, error) {
 	var t model.TaskWithID
 	var tasks []model.TaskWithID

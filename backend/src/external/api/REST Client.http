@@ -1,4 +1,8 @@
-http://localhost:8090/tasks
+GET http://localhost:8090/tasks
+
+###
+
+DELETE http://localhost:8090/tasks/7
 
 ###
 

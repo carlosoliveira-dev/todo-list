@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"todo-list/backend/src/core/task/model"
 	"todo-list/backend/src/core/task/usecase"
 	"todo-list/backend/src/external/db"
@@ -22,7 +23,9 @@ func main() {
 	}
 
 	repoPostgres := db.NewTaskRepoPostgres(pool)
+
 	addTask := usecase.NewAddTask(repoPostgres)
+	removeTask := usecase.NewRemoveTask(repoPostgres)
 	getTasks := usecase.NewGetTasks(repoPostgres)
 
 	router := gin.Default()
@@ -36,6 +39,21 @@ func main() {
 		}
 
 		c.IndentedJSON(http.StatusOK, tasks)
+	})
+
+	router.DELETE("/tasks/:id", func(c *gin.Context) {
+		id := c.Param("id")
+
+		num, err := strconv.ParseInt(id, 10, 64)
+
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
+		removeTask.Execute(int(num))
+
+		c.Status(http.StatusNoContent)
 	})
 
 	router.POST("/tasks", func(c *gin.Context) {
