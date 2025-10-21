@@ -2,6 +2,16 @@ GET http://localhost:8090/tasks
 
 ###
 
+PUT http://localhost:8090/tasks/8 HTTP/1.1
+content-type: application/json
+
+{
+    "description": "programar",
+    "done": false
+}
+
+###
+
 DELETE http://localhost:8090/tasks/7
 
 ###

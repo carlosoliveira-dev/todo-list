@@ -38,6 +38,18 @@ func (tr *TaskRepoPostgres) Remove(id int) error {
 	return nil
 }
 
+func (tr *TaskRepoPostgres) Update(id int, t model.Task) error {
+	_, err := tr.pool.Exec(context.Background(),
+		"UPDATE tasks SET description = $1, done = $2 WHERE id = $3",
+		t.Description, t.Done, id)
+
+	if err != nil {
+		fmt.Printf("ERRO ao modificar a descrição da task: %v", err)
+		return err
+	}
+	return nil
+}
+
 func (tr *TaskRepoPostgres) GetAll() ([]model.TaskWithID, error) {
 	var t model.TaskWithID
 	var tasks []model.TaskWithID
