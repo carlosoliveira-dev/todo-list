@@ -27,6 +27,7 @@ func main() {
 	addTask := usecase.NewAddTask(repoPostgres)
 	removeTask := usecase.NewRemoveTask(repoPostgres)
 	getTasks := usecase.NewGetTasks(repoPostgres)
+	updateTask := usecase.NewUpdateTask(repoPostgres)
 
 	router := gin.Default()
 
@@ -39,6 +40,27 @@ func main() {
 		}
 
 		c.IndentedJSON(http.StatusOK, tasks)
+	})
+
+	router.PUT("/tasks/:id", func(c *gin.Context) {
+		id := c.Param("id")
+
+		num, err := strconv.ParseInt(id, 10, 64)
+
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
+		var task model.Task
+
+		if err := c.BindJSON(&task); err != nil {
+			return
+		}
+
+		updateTask.Execute(int(num), task)
+
+		c.IndentedJSON(http.StatusOK, task)
 	})
 
 	router.DELETE("/tasks/:id", func(c *gin.Context) {
