@@ -23,14 +23,15 @@ func main() {
 
 	repoPostgres := db.NewTaskRepoPostgres(pool)
 	addTask := usecase.NewAddTask(repoPostgres)
+	getTasks := usecase.NewGetTasks(repoPostgres)
 
 	router := gin.Default()
 
 	router.GET("/tasks", func(c *gin.Context) {
-		tasks, err := repoPostgres.GetAll()
+		tasks, err := getTasks.Execute()
 
 		if err != nil {
-			fmt.Println("Erro:", err)
+			log.Fatalf("ERRO AO BUSCAR TODAS AS TAREFAS: %v", err)
 			return
 		}
 
