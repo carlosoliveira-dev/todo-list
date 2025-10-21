@@ -10,18 +10,18 @@ import (
 	"todo-list/backend/src/external/db"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
-	conn, err := pgx.Connect(context.Background(), "postgres://postgres:secret@postgres:5432/todo-list-db?sslmode=disable")
+	pool, err := pgxpool.New(context.Background(), "postgres://postgres:secret@postgres:5432/todo-list-db?sslmode=disable")
 
 	if err != nil {
 		fmt.Println("Erro ao iniciar a conexão ao banco de dados:", err)
 		return
 	}
 
-	repoPostgres := db.NewTaskRepoPostgres(conn)
+	repoPostgres := db.NewTaskRepoPostgres(pool)
 	addTask := usecase.NewAddTask(repoPostgres)
 
 	router := gin.Default()
