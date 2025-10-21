@@ -6,18 +6,19 @@ import (
 	"todo-list/backend/src/core/task/model"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type TaskRepoPostgres struct {
-	conn *pgx.Conn
+	pool *pgxpool.Pool
 }
 
-func NewTaskRepoPostgres(conn *pgx.Conn) *TaskRepoPostgres {
-	return &TaskRepoPostgres{conn: conn}
+func NewTaskRepoPostgres(pool *pgxpool.Pool) *TaskRepoPostgres {
+	return &TaskRepoPostgres{pool: pool}
 }
 
 func (tr *TaskRepoPostgres) Add(t *model.Task) error {
-	_, err := tr.conn.Exec(context.Background(),
+	_, err := tr.pool.Exec(context.Background(),
 		"INSERT INTO tasks (description, done) VALUES ($1, $2)",
 		t.Description, t.Done)
 	if err != nil {
@@ -28,39 +29,18 @@ func (tr *TaskRepoPostgres) Add(t *model.Task) error {
 }
 
 func (tr *TaskRepoPostgres) GetAll() ([]model.TaskWithID, error) {
-	rows, err := tr.conn.Query(context.Background(), "SELECT * FROM tasks")
+	var t model.TaskWithID
+	var tasks []model.TaskWithID
+
+	rows, _ := tr.pool.Query(context.Background(), "SELECT id, description, done FROM tasks")
+	_, err := pgx.ForEachRow(rows, []any{&t.Id, &t.Description, &t.Done}, func() error {
+		tasks = append(tasks, t)
+		return nil
+	})
+
 	if err != nil {
 		fmt.Printf("Query error: %v", err)
 		return nil, err
-	}
-
-	defer rows.Close()
-
-	var tasks []model.TaskWithID
-
-	for rows.Next() {
-		var id int
-		var description string
-		var done bool
-
-		err = rows.Scan(&id, &description, &done)
-		if err != nil {
-			fmt.Printf("Scan error: %v", err)
-			return nil, err
-		}
-
-		task := model.TaskWithID{
-			Id:          id,
-			Description: description,
-			Done:        done,
-		}
-
-		tasks = append(tasks, task)
-	}
-
-	if rows.Err() != nil {
-		fmt.Printf("rows error: %v", rows.Err())
-		return nil, rows.Err()
 	}
 
 	return tasks, nil
