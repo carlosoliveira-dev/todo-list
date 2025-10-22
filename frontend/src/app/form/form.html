@@ -8,12 +8,8 @@
 
 <button class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-2 ml-1 py-1 rounded">Adicionar</button>
 
-<p>Value: {{ name.value }}</p>
-
 @if (tasks$ | async; as tasks) {
     @for (task of tasks; track task.id) {
-        <p>Id: {{ task.id }}</p>
-        <p>task: {{ task.description }}</p>
-        <br>
+        <app-task id="{{task.id}}" description="{{task.description}}"/>
     }
 }

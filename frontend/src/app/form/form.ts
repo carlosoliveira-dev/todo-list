@@ -1,25 +1,21 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import { Observable } from 'rxjs';
-import { TaskService, Task } from '../task-service';
+import { TaskService, TaskModel } from '../task-service';
 import { AsyncPipe } from '@angular/common';
+import { Task } from '../task/task';
 
 @Component({
   selector: 'app-form',
-  imports: [ReactiveFormsModule, AsyncPipe],
+  imports: [ReactiveFormsModule, AsyncPipe, Task],
   templateUrl: './form.html',
   styleUrl: './form.css'
 })
 export class Form {
-  private t: Task = { 
-    id: 0,
-    title: 'serviço addtask',
-    description: 'show de bola...' 
-  };
   name = new FormControl('');
 
-  tasks$!: Observable<Task[]>;
-  task$!: Observable<Task>;
+  tasks$!: Observable<TaskModel[]>;
+  task$!: Observable<TaskModel>;
 
   private taskService = inject(TaskService);
 

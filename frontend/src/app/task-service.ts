@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export interface Task {
+export interface TaskModel {
   id: number;
   title: string;
   description: string;
@@ -15,11 +15,11 @@ export class TaskService {
   private apiUrl = 'api/tasks';
   private http = inject(HttpClient);
   
-  addTask(t: Task): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl, t);
+  addTask(t: TaskModel): Observable<TaskModel> {
+    return this.http.post<TaskModel>(this.apiUrl, t);
   }
 
-  getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl);
+  getTasks(): Observable<TaskModel[]> {
+    return this.http.get<TaskModel[]>(this.apiUrl);
   }
 }
