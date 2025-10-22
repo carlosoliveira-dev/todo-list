@@ -3,9 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface TaskModel {
-  id: number;
-  title: string;
-  description: string;
+  description: string,
+  done: boolean
+}
+
+export interface TaskWithIDModel {
+  id: number,
+  description: string,
+  done: boolean
 }
 
 @Injectable({
@@ -19,7 +24,7 @@ export class TaskService {
     return this.http.post<TaskModel>(this.apiUrl, t);
   }
 
-  getTasks(): Observable<TaskModel[]> {
-    return this.http.get<TaskModel[]>(this.apiUrl);
+  getTasks(): Observable<TaskWithIDModel[]> {
+    return this.http.get<TaskWithIDModel[]>(this.apiUrl);
   }
 }

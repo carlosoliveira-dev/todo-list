@@ -6,7 +6,7 @@
     placeholder="Digite algo..."
     class="border border-blue-500 rounded-lg p-0.5"/>
 
-<button class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-2 ml-1 py-1 rounded">Adicionar</button>
+<button (click)="buttonAddTask()" class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-2 ml-1 py-1 rounded">Adicionar</button>
 
 @if (tasks$ | async; as tasks) {
     @for (task of tasks; track task.id) {

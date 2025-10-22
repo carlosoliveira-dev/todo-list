@@ -24,12 +24,24 @@ export class Form {
       this.tasks$ = this.taskService.getTasks();
       
     });
-    
-  //   this.task$ = this.taskService.addTask(this.t);
-
-  //   this.task$.subscribe({
-  //     next: (res) => console.log('✅ Task adicionada:', res),
-  //     error: (err) => console.error('❌ Erro ao adicionar:', err)
-  //   });
   }
+  
+  buttonAddTask() {
+    
+    if (this.name.value != null && this.name.value.trim() !== '') {
+      const t: TaskModel = {
+        description: this.name.value,
+        done: false
+      }
+        
+      this.task$ = this.taskService.addTask(t);
+        
+      this.task$.subscribe({
+        next: (res) => console.log('✅ Task adicionada:', res),
+        error: (err) => console.error('❌ Erro ao adicionar:', err)
+      });
+    }
+  }
+
 }
+  
