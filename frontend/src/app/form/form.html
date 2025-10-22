@@ -1,0 +1,11 @@
+<label for="name">Name: </label>
+<input id="name" type="text" [formControl]="name">
+<p>Value: {{ name.value }}</p>
+
+@if (tasks$ | async; as tasks) {
+    @for (task of tasks; track task.id) {
+        <p>Id: {{ task.id }}</p>
+        <p>task: {{ task.description }}</p>
+        <br>
+    }
+}
