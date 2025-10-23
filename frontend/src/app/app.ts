@@ -1,9 +1,9 @@
-import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import {AsyncPipe} from '@angular/common'
 import { RouterOutlet } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { TaskModel, TaskService, TaskWithIDModel } from './task-service';
+import { TaskModel, TaskService, TaskWithID } from './task-service';
 
 @Component({
   selector: 'app-root',
@@ -13,60 +13,69 @@ import { TaskModel, TaskService, TaskWithIDModel } from './task-service';
 })
 export class App {
   myForm = new FormControl('');
-  newTask: WritableSignal<string> = signal('')
-
-  task$!: Observable<TaskModel>;
-  tasks$!: Observable<TaskWithIDModel[]>;
 
   private taskService = inject(TaskService);
 
-  constructor() {
-    effect(() => {
-      this.loadTasks();
-
-      if (this.newTask().trim() !== ''){
-        const t: TaskModel = {
-          description: this.newTask(),
-          done: false
-        };
-
-        this.AddTask(t);
-      }
-    });
-  }
+  addTask$!: Observable<TaskModel>;
+  tasks$!: Observable<TaskWithID[]>;
   
-  loadTasks() {
+  deleteTask$!: Observable<string>;
+  changeDone$!: Observable<TaskModel>
+
+  constructor() {
     this.tasks$ = this.taskService.getTasks();
   }
 
-  AddTask(t: TaskModel) {
-      
-    this.task$ = this.taskService.addTask(t);
-      
-    this.task$.subscribe({
-      next: (res) => console.log('✅ Task adicionada:', res),
-      error: (err) => console.error('❌ Erro ao adicionar:', err)
-    });
-    this.loadTasks();
-  }
-  
-  clearForm() {
-    this.myForm.setValue('');
-  }
-
   onEnter() {
-    
     let myFormValue = this.myForm.value;
         
     if (myFormValue != null) {
-      this.newTask.set(myFormValue);
+      const t: TaskModel = {
+        description: myFormValue,
+        done: false 
+      };
+      this.AddTask(t);
     }
-
     this.clearForm();
   }
-
+  
   OnButton() {
     this.clearForm();
   }
 
+  clearForm() {
+    this.myForm.setValue('');
+  }
+  
+  AddTask(t: TaskModel) {
+    this.addTask$ = this.taskService.addTask(t);
+      
+    this.addTask$.subscribe({
+      next: (res) => console.log('✅ Task adicionada:', res),
+      error: (err) => console.error('❌ Erro ao adicionar:', err)
+    });
+  }
+
+  delete(task: TaskWithID) {    
+    this.deleteTask$ = this.taskService.deleteTask(task.id);
+      
+    this.deleteTask$.subscribe({
+      next: (res) => console.log('✅ Task excluída:', res),
+      error: (err) => console.error('❌ Erro ao excluir:', err)
+    });
+  }
+
+  done(task: TaskWithID) {
+    const t: TaskModel = {
+            description: task.description,
+            done: !task.done
+      };
+
+    this.changeDone$ = this.taskService.changeDone(task.id, t);
+    
+    this.changeDone$.subscribe({
+      next: (res) => console.log('✅ Done da task modificada:', res),
+      error: (err) => console.error('❌ Erro ao modificar Done:', err)
+    });
+  }
 }

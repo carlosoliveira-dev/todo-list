@@ -7,10 +7,8 @@ export interface TaskModel {
   done: boolean
 }
 
-export interface TaskWithIDModel {
-  id: number,
-  description: string,
-  done: boolean
+export interface TaskWithID extends TaskModel {
+  id: number
 }
 
 @Injectable({
@@ -28,8 +26,8 @@ export class TaskService {
     return this.http.delete<string>(this.apiUrl + "/" + id);
   }
 
-  getTasks(): Observable<TaskWithIDModel[]> {
-    return this.http.get<TaskWithIDModel[]>(this.apiUrl);
+  getTasks(): Observable<TaskWithID[]> {
+    return this.http.get<TaskWithID[]>(this.apiUrl);
   }
 
   changeDone(id: number, t: TaskModel): Observable<TaskModel> {
