@@ -32,4 +32,7 @@ export class TaskService {
     return this.http.get<TaskWithIDModel[]>(this.apiUrl);
   }
 
+  changeDone(id: number, t: TaskModel): Observable<TaskModel> {
+    return this.http.put<TaskModel>(this.apiUrl + "/" + id, t);
+  }
 }

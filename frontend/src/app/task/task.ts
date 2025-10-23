@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { TaskService } from '../task-service';
+import { TaskModel, TaskService } from '../task-service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class Task {
   deleteTask$!: Observable<string>;
+  changeDone$!: Observable<TaskModel>
 
   private taskService = inject(TaskService);
   
@@ -18,7 +19,18 @@ export class Task {
   done = input<boolean>(false);
 
   changeDone() {
-    alert('done clicked.');
+    const t: TaskModel = {
+          description: this.description(),
+          done: !this.done()
+        };
+
+
+    this.changeDone$ = this.taskService.changeDone(this.id(), t);
+    
+    this.changeDone$.subscribe({
+      next: (res) => console.log('✅ Done da task modificada:', res),
+      error: (err) => console.error('❌ Erro ao modificar Done:', err)
+    });
   }
 
   delete() {    
