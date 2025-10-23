@@ -29,7 +29,7 @@ export class Form {
     this.tasks$ = this.taskService.getTasks();
   }
 
-  buttonAddTask() {
+  AddTask() {
     
     if (this.name.value != null && this.name.value.trim() !== '') {
       const t: TaskModel = {
@@ -45,6 +45,10 @@ export class Form {
       });
       this.loadTasks();
     }
+  }
+
+  onEnter() {
+    this.AddTask();
   }
 
 }
