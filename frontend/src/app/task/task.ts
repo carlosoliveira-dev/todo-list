@@ -21,10 +21,8 @@ export class Task {
     alert('done clicked.');
   }
 
-  delete() {
-    alert('delete clicked.');
-    
-    this.deleteTask$ = this.taskService.deleteTask(2);
+  delete() {    
+    this.deleteTask$ = this.taskService.deleteTask(this.id());
       
     this.deleteTask$.subscribe({
       next: (res) => console.log('✅ Task excluída:', res),
