@@ -10,4 +10,8 @@ export class Task {
   id = input<number>(0);
   description = input<string>("");
   done = input<boolean>(false);
+
+  changeDone() {
+    alert('done clickado.');
+  }
 }
