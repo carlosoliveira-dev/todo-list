@@ -1,7 +1,7 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import { Observable } from 'rxjs';
-import { TaskService, TaskModel } from '../task-service';
+import { TaskService, TaskModel, TaskWithIDModel } from '../task-service';
 import { AsyncPipe } from '@angular/common';
 import { Task } from '../task/task';
 
@@ -14,18 +14,21 @@ import { Task } from '../task/task';
 export class Form {
   name = new FormControl('');
 
-  tasks$!: Observable<TaskModel[]>;
   task$!: Observable<TaskModel>;
+  tasks$!: Observable<TaskWithIDModel[]>;
 
   private taskService = inject(TaskService);
 
   constructor() {
     effect(() => {
-      this.tasks$ = this.taskService.getTasks();
-      
+      this.loadTasks();
     });
   }
   
+  loadTasks() {
+    this.tasks$ = this.taskService.getTasks();
+  }
+
   buttonAddTask() {
     
     if (this.name.value != null && this.name.value.trim() !== '') {
@@ -40,6 +43,7 @@ export class Form {
         next: (res) => console.log('✅ Task adicionada:', res),
         error: (err) => console.error('❌ Erro ao adicionar:', err)
       });
+      this.loadTasks();
     }
   }
 
