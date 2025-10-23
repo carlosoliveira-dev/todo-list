@@ -24,7 +24,12 @@ export class TaskService {
     return this.http.post<TaskModel>(this.apiUrl, t);
   }
 
+  deleteTask(id: number): Observable<string> {
+    return this.http.delete<string>(this.apiUrl + "/" + id);
+  }
+
   getTasks(): Observable<TaskWithIDModel[]> {
     return this.http.get<TaskWithIDModel[]>(this.apiUrl);
   }
+
 }
