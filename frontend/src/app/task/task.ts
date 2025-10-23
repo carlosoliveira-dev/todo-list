@@ -12,6 +12,10 @@ export class Task {
   done = input<boolean>(false);
 
   changeDone() {
-    alert('done clickado.');
+    alert('done clicked.');
+  }
+
+  delete() {
+    alert('delete clicked.');
   }
 }
