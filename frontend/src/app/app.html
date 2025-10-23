@@ -4,4 +4,14 @@
   Minhas Tarefas
 </h1>
 
-<app-form />
+<label for="name" class="text-blue-500 sr-only">Nova Tarefa: </label>
+<input (keyup.enter)="onEnter()" 
+    id="name"
+    type="text" [formControl]="myForm"
+    autocomplete="off"
+    autofocus
+    placeholder="Digite algo..."
+    class="border border-blue-500 rounded-lg p-0.5"/>
+
+<button (click)="OnButton()" class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-2 ml-1 py-1 rounded">Adicionar</button>
+
