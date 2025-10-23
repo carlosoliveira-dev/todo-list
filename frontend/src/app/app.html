@@ -15,3 +15,8 @@
 
 <button (click)="OnButton()" class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-2 ml-1 py-1 rounded">Adicionar</button>
 
+@if (tasks$ | async; as tasks) {
+    @for (task of tasks; track task.id) {
+        <p> {{task.id}} {{task.done}} {{task.description}}</p>
+    }
+}
