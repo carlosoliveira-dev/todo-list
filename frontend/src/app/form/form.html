@@ -10,6 +10,6 @@
 
 @if (tasks$ | async; as tasks) {
     @for (task of tasks; track task.id) {
-        <app-task id="{{task.id}}" description="{{task.description}}"/>
+        <app-task [id]="task.id" [description]="task.description" [done]="task.done"/>
     }
 }

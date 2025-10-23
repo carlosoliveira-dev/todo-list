@@ -7,7 +7,7 @@ import { Component, input } from '@angular/core';
   styleUrl: './task.css'
 })
 export class Task {
-  id = input<string>("");
+  id = input<number>(0);
   description = input<string>("");
   done = input<boolean>(false);
 }
