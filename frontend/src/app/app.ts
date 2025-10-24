@@ -2,7 +2,7 @@ import { Component, effect, inject, OnInit, signal, WritableSignal } from '@angu
 import {AsyncPipe} from '@angular/common'
 import { RouterOutlet } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { TaskModel, TaskService, TaskWithID } from './task-service';
 import { waitForAsync } from '@angular/core/testing';
 
@@ -25,18 +25,17 @@ export class App {
 
   tasks: WritableSignal<TaskWithID[]> = signal([]);
 
-  loadTasks() {
-    this.getTasks$ = this.taskService.getTasks();
-    this.getTasks$.subscribe({
-      next: (tasksRes) => {
-        console.log('✅ Lista de tasks carregada:', tasksRes);
-        this.tasks.set(tasksRes);
-      },
-      error: (err) => console.error('❌ Erro carregar lista de tasks:', err)
-    });
+  async loadTasks() {
+    try {
+      const tasksRes = await firstValueFrom(this.taskService.getTasks());
+      this.tasks.set(tasksRes);
+      console.log('✅ Lista de tasks carregada:', tasksRes);
+    } catch (err) {
+      console.error('❌ Erro carregar lista de tasks:', err)
+    }
   }
 
-  onEnter() {
+  async onEnter() {
     let myFormValue = this.myForm.value;
         
     if (myFormValue != null) {
@@ -45,13 +44,13 @@ export class App {
         done: false 
       };
       this.AddTask(t);
-      this.loadTasks();
+      await this.loadTasks();
     }
     this.clearForm();
     
   }
   
-  OnButton() {
+  async OnButton() {
     this.clearForm();
   }
 
