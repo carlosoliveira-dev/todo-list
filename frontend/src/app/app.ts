@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { TaskModel, TaskService, TaskWithID } from './task-service';
+import { waitForAsync } from '@angular/core/testing';
 
 @Component({
   selector: 'app-root',
@@ -17,13 +18,22 @@ export class App {
   private taskService = inject(TaskService);
 
   addTask$!: Observable<TaskModel>;
-  tasks$!: Observable<TaskWithID[]>;
+  getTasks$!: Observable<TaskWithID[]>;
   
   deleteTask$!: Observable<string>;
   changeDone$!: Observable<TaskModel>
 
-  constructor() {
-    this.tasks$ = this.taskService.getTasks();
+  tasks: WritableSignal<TaskWithID[]> = signal([]);
+
+  loadTasks() {
+    this.getTasks$ = this.taskService.getTasks();
+    this.getTasks$.subscribe({
+      next: (tasksRes) => {
+        console.log('✅ Lista de tasks carregada:', tasksRes);
+        this.tasks.set(tasksRes);
+      },
+      error: (err) => console.error('❌ Erro carregar lista de tasks:', err)
+    });
   }
 
   onEnter() {
@@ -35,8 +45,10 @@ export class App {
         done: false 
       };
       this.AddTask(t);
+      this.loadTasks();
     }
     this.clearForm();
+    
   }
   
   OnButton() {
