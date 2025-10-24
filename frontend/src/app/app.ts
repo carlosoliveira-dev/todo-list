@@ -12,7 +12,12 @@ import { waitForAsync } from '@angular/core/testing';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnInit{
+
+  async ngOnInit() {
+    await this.loadTasks();
+  }
+
   myForm = new FormControl('');
 
   private taskService = inject(TaskService);
