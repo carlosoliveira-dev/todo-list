@@ -54,7 +54,7 @@ func (tr *TaskRepoPostgres) GetAll() ([]model.TaskWithID, error) {
 	var t model.TaskWithID
 	var tasks []model.TaskWithID
 
-	rows, _ := tr.pool.Query(context.Background(), "SELECT id, description, done FROM tasks")
+	rows, _ := tr.pool.Query(context.Background(), "SELECT id, description, done FROM tasks ORDER BY id ASC;")
 	_, err := pgx.ForEachRow(rows, []any{&t.Id, &t.Description, &t.Done}, func() error {
 		tasks = append(tasks, t)
 		return nil
