@@ -43,7 +43,7 @@ export class App {
         description: myFormValue,
         done: false 
       };
-      this.AddTask(t);
+      await this.AddTask(t);
       await this.loadTasks();
     }
     this.clearForm();
@@ -54,17 +54,17 @@ export class App {
     this.clearForm();
   }
 
-  clearForm() {
+  async clearForm() {
     this.myForm.setValue('');
   }
   
-  AddTask(t: TaskModel) {
-    this.addTask$ = this.taskService.addTask(t);
-      
-    this.addTask$.subscribe({
-      next: (res) => console.log('✅ Task adicionada:', res),
-      error: (err) => console.error('❌ Erro ao adicionar:', err)
-    });
+  async AddTask(t: TaskModel) {
+    try {
+      const res = await firstValueFrom(this.taskService.addTask(t));
+      console.log('✅ Task adicionada:', res)
+    } catch (err) {
+      console.error('❌ Erro ao adicionar:', err)
+    }
   }
 
   delete(task: TaskWithID) {    
