@@ -76,17 +76,17 @@ export class App {
     await this.loadTasks();
   }
 
-  done(task: TaskWithID) {
-    const t: TaskModel = {
-            description: task.description,
-            done: !task.done
-      };
-
-    this.changeDone$ = this.taskService.changeDone(task.id, t);
-    
-    this.changeDone$.subscribe({
-      next: (res) => console.log('✅ Done da task modificada:', res),
-      error: (err) => console.error('❌ Erro ao modificar Done:', err)
-    });
+  async done(task: TaskWithID) {
+    try {
+      const t: TaskModel = {
+              description: task.description,
+              done: !task.done
+        };
+      const res = await firstValueFrom(this.taskService.changeDone(task.id, t));
+      console.log('✅ Done da task modificada:', res)
+    } catch (err) {
+      console.error('❌ Erro ao modificar Done:', err)
+    }
+    await this.loadTasks();
   }
 }
