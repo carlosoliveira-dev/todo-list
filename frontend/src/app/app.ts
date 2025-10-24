@@ -52,7 +52,7 @@ export class App implements OnInit{
   }
   
   async OnButton() {
-    this.clearForm();
+    await this.onEnter();
   }
 
   async clearForm() {
