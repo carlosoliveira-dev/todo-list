@@ -44,10 +44,8 @@ export class App {
         done: false 
       };
       await this.AddTask(t);
-      await this.loadTasks();
     }
-    this.clearForm();
-    
+    this.clearForm(); 
   }
   
   async OnButton() {
@@ -65,15 +63,17 @@ export class App {
     } catch (err) {
       console.error('❌ Erro ao adicionar:', err)
     }
+    await this.loadTasks();
   }
 
-  delete(task: TaskWithID) {    
-    this.deleteTask$ = this.taskService.deleteTask(task.id);
-      
-    this.deleteTask$.subscribe({
-      next: (res) => console.log('✅ Task excluída:', res),
-      error: (err) => console.error('❌ Erro ao excluir:', err)
-    });
+  async delete(task: TaskWithID) {
+    try {
+      const res = await firstValueFrom(this.taskService.deleteTask(task.id));
+      console.log('✅ Task excluída:', res)
+    } catch (err) {
+      console.error('❌ Erro ao excluir:', err)
+    }   
+    await this.loadTasks();
   }
 
   done(task: TaskWithID) {
