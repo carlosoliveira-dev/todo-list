@@ -1,14 +1,12 @@
-import { Component, effect, inject, OnInit, signal, WritableSignal } from '@angular/core';
-import {AsyncPipe} from '@angular/common'
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { firstValueFrom, Observable } from 'rxjs';
 import { TaskModel, TaskService, TaskWithID } from './task-service';
-import { waitForAsync } from '@angular/core/testing';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ReactiveFormsModule, AsyncPipe],
+  imports: [RouterOutlet, ReactiveFormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
