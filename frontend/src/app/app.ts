@@ -41,7 +41,7 @@ export class App implements OnInit{
   async onEnter() {
     let myFormValue = this.myForm.value;
         
-    if (myFormValue != null) {
+    if (myFormValue != null && myFormValue.trim() !== '') {
       const t: TaskModel = {
         description: myFormValue,
         done: false 
