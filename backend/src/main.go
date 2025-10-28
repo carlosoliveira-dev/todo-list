@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"todo-list/backend/src/core/task/model"
 	"todo-list/backend/src/core/task/usecase"
@@ -15,7 +16,13 @@ import (
 )
 
 func main() {
-	pool, err := pgxpool.New(context.Background(), "postgres://postgres:secret@postgres:5432/todo-list-db?sslmode=disable")
+	connStr := os.Getenv("DATABASE_URL")
+
+	if connStr == "" {
+		log.Fatal("DATABASE_URL not set")
+	}
+
+	pool, err := pgxpool.New(context.Background(), connStr)
 
 	if err != nil {
 		fmt.Println("Erro ao iniciar a conexão ao banco de dados:", err)
