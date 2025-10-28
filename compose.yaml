@@ -5,9 +5,10 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: runner
     container_name: todo_list_angular_prod
     ports:
-      - "4200:4200"
+      - "8080:8080"
     profiles:
       - prod
 
