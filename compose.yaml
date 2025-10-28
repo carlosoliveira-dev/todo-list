@@ -16,11 +16,12 @@ services:
     profiles:
       - dev
 
-  backend:
+  backend-dev:
     build:
       context: ./backend/src
       dockerfile: Dockerfile
-    container_name: todo_list_backend
+      target: development
+    container_name: todo_list_backend_dev
     ports:
       - "8090:8090"
     develop:
@@ -30,6 +31,17 @@ services:
           target: /app
     profiles:
       - dev
+
+  backend:
+    build:
+      context: ./backend/src
+      dockerfile: Dockerfile
+      target: build-release-stage
+    container_name: todo_list_backend_prod
+    ports:
+      - "8090:8090"
+    profiles:
+      - prod
 
   postgres:
     build:

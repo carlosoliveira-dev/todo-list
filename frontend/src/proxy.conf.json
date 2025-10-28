@@ -1,6 +1,6 @@
 {
    "/api": {
-     "target": "http://backend:8090",
+     "target": "http://backend-dev:8090",
      "pathRewrite": { "^/api": "" },
      "secure": false
    }
