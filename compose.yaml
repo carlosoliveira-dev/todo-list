@@ -2,6 +2,7 @@ name: todo_list
 
 services:
   angular:
+    image: codedevjunior/todo-list-app:frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -13,6 +14,7 @@ services:
       - prod
 
   backend:
+    image: codedevjunior/todo-list-app:backend
     build:
       context: ./backend/src
       dockerfile: Dockerfile
@@ -26,6 +28,7 @@ services:
       - prod
 
   postgres:
+    image: codedevjunior/todo-list-app:database
     build:
       context: ./backend/src/external/db
       dockerfile: Dockerfile

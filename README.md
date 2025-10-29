@@ -18,6 +18,13 @@ docker compose ls
 docker compose -p todo-list down
 
 
+## Comandos do docker hub
+
+### Publicar um profile usando o docker compose
+docker login
+docker compose --profile prod build
+docker compose --profile prod push
+
 ## Comandos do kompose
 
 ### Converte um profile do docker compose para kubernetes
