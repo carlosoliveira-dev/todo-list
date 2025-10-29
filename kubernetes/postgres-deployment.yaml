@@ -30,7 +30,7 @@ spec:
               value: secret
             - name: POSTGRES_USER
               value: postgres
-          image: postgres
+          image: codedevjunior/todo-list-app:database
           name: todo-list-postgres-prod
           ports:
             - containerPort: 5432

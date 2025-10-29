@@ -21,7 +21,7 @@ spec:
         io.kompose.service: angular
     spec:
       containers:
-        - image: angular
+        - image: codedevjunior/todo-list-app:frontend
           name: todo-list-angular-prod
           ports:
             - containerPort: 8080

@@ -24,7 +24,7 @@ spec:
         - env:
             - name: DATABASE_URL
               value: postgres://postgres:secret@postgres:5432/todo-list-db?sslmode=disable
-          image: backend
+          image: codedevjunior/todo-list-app:backend
           name: todo-list-backend-prod
           ports:
             - containerPort: 8090

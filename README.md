@@ -35,3 +35,13 @@ kubectl apply -f angular-deployment.yaml,angular-service.yaml,backend-deployment
 
 ### Apaga o deploy
 kubectl delete -f angular-deployment.yaml,angular-service.yaml,backend-deployment.yaml,backend-service.yaml,postgres-deployment.yaml,postgres-service.yaml,todo-list-data-prod-persistentvolumeclaim.yaml
+
+
+## Comandos do kubernetes
+
+### Lista todos os serviços
+kubectl get service
+
+### Cria um túnel de porta para acessar o app
+kubectl port-forward service/angular 8080:8080
+
