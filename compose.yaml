@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       target: runner
-    container_name: todo_list_angular_prod
+    container_name: angular_prod
     ports:
       - "8080:8080"
     profiles:
@@ -17,7 +17,7 @@ services:
       context: ./backend/src
       dockerfile: Dockerfile
       target: build-release-stage
-    container_name: todo_list_backend_prod
+    container_name: backend_prod
     environment:
       DATABASE_URL: postgres://postgres:secret@postgres:5432/todo-list-db?sslmode=disable
     ports:
@@ -29,7 +29,7 @@ services:
     build:
       context: ./backend/src/external/db
       dockerfile: Dockerfile
-    container_name: todo_list_postgres_prod
+    container_name: postgres_prod
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
@@ -45,7 +45,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    container_name: todo_list_angular_dev
+    container_name: angular_dev
     ports:
       - "4200:4200"
     develop:
@@ -61,7 +61,7 @@ services:
       context: ./backend/src
       dockerfile: Dockerfile
       target: development
-    container_name: todo_list_backend_dev
+    container_name: backend_dev
     environment:
       DATABASE_URL: postgres://postgres:secret@postgres-dev:5432/todo-list-db?sslmode=disable
     ports:
@@ -78,7 +78,7 @@ services:
     build:
       context: ./backend/src/external/db
       dockerfile: Dockerfile
-    container_name: todo_list_postgres_dev
+    container_name: postgres_dev
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
@@ -92,7 +92,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:9.9
-    container_name: todo_list_pgadmin
+    container_name: pgadmin
     ports:
       - 5050:80
     volumes:
