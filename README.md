@@ -16,3 +16,15 @@ docker compose ls
 
 ### Finaliza um grupo de serviços pelo nome
 docker compose -p todo-list down
+
+
+## Comandos do kompose
+
+### Converte um profile do docker compose para kubernetes
+kompose convert --profile prod
+
+### Faz o deploy do profile prod no kubernetes
+kubectl apply -f angular-deployment.yaml,angular-service.yaml,backend-deployment.yaml,backend-service.yaml,postgres-deployment.yaml,postgres-service.yaml,todo-list-data-prod-persistentvolumeclaim.yaml
+
+### Apaga o deploy
+kubectl delete -f angular-deployment.yaml,angular-service.yaml,backend-deployment.yaml,backend-service.yaml,postgres-deployment.yaml,postgres-service.yaml,todo-list-data-prod-persistentvolumeclaim.yaml
