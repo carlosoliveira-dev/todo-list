@@ -1,5 +1,9 @@
 # todo-list
 
+Esse é o meu primeiro projeto para a faculdade de Ciências da Computação na Gran Faculdade. Tenho muito orgulho dele porque aprendi diversas coisas como por exemplo: lidar com framewords, resolução de problemas, injeção de dependências, arquitetura de sistemas, lidar com Docker, Kubernetes, usar mais de uma linguagem de programação em um mesmo projeto, aprender a usar o Angular e linhas de comando.
+
+Mesmo sendo um app muito simples, eu consegui fazer o deploy local usando o Kubernetes e funcionou perfeitamente.
+
 ## Comandos do Docker
 
 ### Inicia a aplicação em modo desenvolvedor
